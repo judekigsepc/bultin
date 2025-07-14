@@ -44,7 +44,7 @@ export const loginUser = async (req: Request, res: Response) => {
             throw new Error("Wrong password provided")
         }
 
-        const jwtToken = jwt.sign({userId: user._id},process.env.JWT_SECRET as string)
+        const jwtToken = jwt.sign({userId: user._id},process.env.JWT_SECRET as string,{expiresIn: '12h'})
 
         res.cookie('token', jwtToken, {
             httpOnly: true,
@@ -56,5 +56,24 @@ export const loginUser = async (req: Request, res: Response) => {
     }catch (err) {
          sendError(500,'User login failed',err, res)
 
+    }
+}
+
+export const updateSelf = async (req: Request, res:Response) => {
+    try {
+         validateRequestBody('update','user',req)
+
+         const userToUpdate = await User.findById(req.user._id)
+
+         if (!userToUpdate) {
+            throw new Error("User not found")
+         }
+
+         const updatedUser = await User.findByIdAndUpdate(req.user._id,{...req.body},{new: true})
+
+         sendSuccess(200,"User update successful",updatedUser,res)
+
+    }catch (err) {
+        sendError(500,"User update failed",err,res)
     }
 }

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import { IUSER } from "./auth.types";
+import { IUser } from "./user.schema";
 
-const userSchema = new mongoose.Schema<IUSER>({
+const userSchema = new mongoose.Schema<IUser>({
     fullName: {
         type: String,
         required: true
@@ -14,9 +14,14 @@ const userSchema = new mongoose.Schema<IUSER>({
     password: {
         type: String,
         required: true
-    }
+    },
+    role: {
+        type: String,
+        enum: ["teacher","student"],
+        required: true
+    },
 })
 
-const User = mongoose.model<IUSER>("User", userSchema)
+const User = mongoose.model<IUser>("User", userSchema)
 
 export default User

@@ -1,9 +1,11 @@
 import express from 'express'
-import { loginUser, registerUser } from './auth.controller'
+import { loginUser, registerUser, updateSelf } from './auth.controller'
+import { authenticateUser } from '../../middleware/auth.middleware'
 
 const authRouter = express.Router()
 
 authRouter.post('/register', registerUser)
 authRouter.post('/login', loginUser)
+authRouter.put('/update', authenticateUser, updateSelf)
 
 export default authRouter
