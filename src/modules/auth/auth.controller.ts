@@ -14,7 +14,7 @@ export const registerUser = async (req:Request, res: Response) => {
       const password = await bcrypt.hash(req.body.password, 10)
 
       // Checking if user already exists
-      const existingUser = await User.findOne({email: req.body.email})
+      const existingUser = await User.findOne({email: req.body.email}).lean()
       if(existingUser) {
         throw new Error("User with the same email already exists")
       }
@@ -33,7 +33,7 @@ export const loginUser = async (req: Request, res: Response) => {
     try {
         validateRequestBody('creation','user-login',req)
 
-        const user = await User.findOne({email: req.body.email})
+        const user = await User.findOne({email: req.body.email}).lean()
 
         if(!user) {
             return sendError(400,"User login failed","User with email not found",res)
