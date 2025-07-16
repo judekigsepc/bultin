@@ -2,6 +2,8 @@ import z from "zod";
 
 export const groupSchema = z.object({
     name: z.string(),
-    owner:z.string(),
-    members: z.string().array(),
+})
+
+export const addGroupMembersSchema = z.object({
+    forGroup: z.string().array()
 })

@@ -6,6 +6,7 @@
 
 
  import authRouter from './modules/auth/auth.route';
+ import groupRouter from './modules/groups/group.route';
 
 const app = express();
 
@@ -35,3 +36,4 @@ res.send('Server up and running')
 })
 
 app.use('/api/auth', authRouter)
+app.use('/api/groups',groupRouter)
